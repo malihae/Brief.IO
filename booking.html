@@ -1,0 +1,173 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.pricing-wrap { padding: 2rem 1.5rem; font-family: var(--font-sans); }
+.pricing-header { text-align: center; margin-bottom: 2rem; }
+.pricing-header h1 { font-size: 22px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+.pricing-header p { font-size: 14px; color: var(--text-secondary); }
+.toggle-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 2rem; }
+.toggle-label { font-size: 13px; color: var(--text-secondary); }
+.toggle-label.active { color: var(--text-primary); font-weight: 500; }
+.toggle-btn { width: 40px; height: 22px; border-radius: 11px; background: var(--fill-accent); border: none; cursor: pointer; position: relative; }
+.toggle-knob { width: 16px; height: 16px; border-radius: 50%; background: #fff; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
+.toggle-knob.annual { left: 21px; }
+.save-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--bg-success); color: var(--text-success); font-weight: 500; }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.plan-card { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; }
+.plan-card.featured { border: 2px solid var(--border-accent); }
+.plan-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--bg-accent); color: var(--text-accent); font-weight: 500; display: inline-block; margin-bottom: 10px; }
+.plan-name { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+.plan-tagline { font-size: 12px; color: var(--text-secondary); margin-bottom: 1rem; }
+.plan-price { font-size: 28px; font-weight: 500; color: var(--text-primary); }
+.plan-price span { font-size: 14px; color: var(--text-muted); font-weight: 400; }
+.plan-price-note { font-size: 12px; color: var(--text-muted); margin-bottom: 1.25rem; margin-top: 2px; min-height: 16px; }
+.plan-divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
+.feature-list { list-style: none; flex: 1; }
+.feature-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+.feature-list li i { color: var(--text-success); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.feature-list li i.muted { color: var(--text-muted); }
+.plan-cta { margin-top: 1.25rem; width: 100%; padding: 9px; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid var(--border-strong); background: transparent; color: var(--text-primary); }
+.plan-cta:hover { background: var(--surface-1); }
+.plan-cta.primary { background: var(--fill-accent); color: var(--on-accent); border-color: var(--fill-accent); }
+.plan-cta.primary:hover { background: var(--fill-accent-hover); }
+.pro-features { background: var(--surface-1); border-radius: 12px; padding: 1.5rem; }
+.pro-features-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 1rem; }
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.feat-item { display: flex; align-items: flex-start; gap: 10px; }
+.feat-icon { width: 32px; height: 32px; border-radius: var(--radius); background: var(--bg-pro); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.feat-icon i { font-size: 16px; color: var(--text-pro); }
+.feat-title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.feat-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+</style>
+
+<h2 class="sr-only">BriefOS pricing — Free, Pro at $12/month, and Team at $49/month plans with feature comparison</h2>
+
+<div class="pricing-wrap">
+  <div class="pricing-header">
+    <h1>Simple, honest pricing</h1>
+    <p>Start free. Upgrade when BriefOS saves you more time than it costs.</p>
+  </div>
+
+  <div class="toggle-row">
+    <span class="toggle-label active" id="lbl-monthly">Monthly</span>
+    <button class="toggle-btn" onclick="toggleBilling()" id="billing-toggle" aria-label="Toggle billing period">
+      <div class="toggle-knob" id="knob"></div>
+    </button>
+    <span class="toggle-label" id="lbl-annual">Annual</span>
+    <span class="save-badge" id="save-badge" style="display:none">Save 20%</span>
+  </div>
+
+  <div class="plans">
+    <div class="plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-tagline">Try it, no card needed</div>
+      <div class="plan-price">$0 <span>/ mo</span></div>
+      <div class="plan-price-note">&nbsp;</div>
+      <hr class="plan-divider">
+      <ul class="feature-list">
+        <li><i class="ti ti-check" aria-hidden="true"></i> 1 AI brief per day</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Up to 3 meetings shown</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Google Calendar and Gmail</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> 5 priority tasks</li>
+        <li><i class="ti ti-x muted" aria-hidden="true"></i> <span style="color:var(--text-muted)">Meeting prep briefs</span></li>
+        <li><i class="ti ti-x muted" aria-hidden="true"></i> <span style="color:var(--text-muted)">Voice summary</span></li>
+        <li><i class="ti ti-x muted" aria-hidden="true"></i> <span style="color:var(--text-muted)">Email drafting</span></li>
+      </ul>
+      <button class="plan-cta" onclick="sendPrompt('How do I get started with BriefOS Free? ↗')">Get started free ↗</button>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="plan-badge"><i class="ti ti-star" aria-hidden="true" style="font-size:10px"></i> Most popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-tagline">For busy professionals</div>
+      <div class="plan-price" id="pro-price">$12 <span>/ mo</span></div>
+      <div class="plan-price-note" id="pro-note">&nbsp;</div>
+      <hr class="plan-divider">
+      <ul class="feature-list">
+        <li><i class="ti ti-check" aria-hidden="true"></i> Unlimited daily briefs</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> All meetings covered</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> 6 integrations (incl. Slack, Notion, Asana)</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Unlimited tasks</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Per-meeting prep briefs</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Voice summary (60-sec audio)</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> AI email drafting from brief</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Priority support</li>
+      </ul>
+      <button class="plan-cta primary" onclick="sendPrompt('Start my BriefOS Pro trial ↗')">Start 14-day free trial ↗</button>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-name">Team</div>
+      <div class="plan-tagline">Shared context, less meetings</div>
+      <div class="plan-price" id="team-price">$49 <span>/ 5 seats / mo</span></div>
+      <div class="plan-price-note" id="team-note">&nbsp;</div>
+      <hr class="plan-divider">
+      <ul class="feature-list">
+        <li><i class="ti ti-check" aria-hidden="true"></i> Everything in Pro</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Shared team context layer</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Manager overview brief</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Auto-generated stand-up notes</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Slack digest for the whole team</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> Admin dashboard</li>
+        <li><i class="ti ti-check" aria-hidden="true"></i> SSO and SAML (coming soon)</li>
+      </ul>
+      <button class="plan-cta" onclick="sendPrompt('Tell me more about BriefOS Team plan for my organisation ↗')">Talk to us ↗</button>
+    </div>
+  </div>
+
+  <div class="pro-features">
+    <div class="pro-features-label"><i class="ti ti-sparkles" aria-hidden="true"></i> Pro feature highlights</div>
+    <div class="feat-grid">
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-microphone" aria-hidden="true"></i></div>
+        <div>
+          <div class="feat-title">Voice brief</div>
+          <div class="feat-desc">60-second audio summary delivered to your phone every morning.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+        <div>
+          <div class="feat-title">Meeting prep on demand</div>
+          <div class="feat-desc">One-click prep brief for any meeting — context, decisions, talking points.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-mail" aria-hidden="true"></i></div>
+        <div>
+          <div class="feat-title">Email drafting</div>
+          <div class="feat-desc">Draft replies and follow-ups directly from flagged emails in your brief.</div>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-plug" aria-hidden="true"></i></div>
+        <div>
+          <div class="feat-title">Deep integrations</div>
+          <div class="feat-desc">Notion, Asana, Linear, Slack — all feeding into one consolidated view.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var isAnnual = false;
+function toggleBilling() {
+  isAnnual = !isAnnual;
+  document.getElementById('knob').className = 'toggle-knob' + (isAnnual ? ' annual' : '');
+  document.getElementById('lbl-monthly').className = 'toggle-label' + (isAnnual ? '' : ' active');
+  document.getElementById('lbl-annual').className = 'toggle-label' + (isAnnual ? ' active' : '');
+  document.getElementById('save-badge').style.display = isAnnual ? 'inline-block' : 'none';
+  if (isAnnual) {
+    document.getElementById('pro-price').innerHTML = '$10 <span>/ mo</span>';
+    document.getElementById('pro-note').textContent = 'Billed $115/year';
+    document.getElementById('team-price').innerHTML = '$39 <span>/ 5 seats / mo</span>';
+    document.getElementById('team-note').textContent = 'Billed $470/year';
+  } else {
+    document.getElementById('pro-price').innerHTML = '$12 <span>/ mo</span>';
+    document.getElementById('pro-note').innerHTML = '&nbsp;';
+    document.getElementById('team-price').innerHTML = '$49 <span>/ 5 seats / mo</span>';
+    document.getElementById('team-note').innerHTML = '&nbsp;';
+  }
+}
+</script>
