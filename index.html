@@ -1,0 +1,209 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: transparent; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 0.5px solid var(--border); }
+  .logo { font-size: 17px; font-weight: 500; color: var(--text-primary); letter-spacing: -0.3px; }
+  .logo span { color: var(--text-accent); }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; background: var(--bg-accent); color: var(--text-accent); }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-pro); color: var(--text-pro); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; }
+  .main { padding: 1.5rem; display: grid; grid-template-columns: 1fr 300px; gap: 1rem; }
+  .left { display: flex; flex-direction: column; gap: 1rem; }
+  .card { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .card-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.75rem; }
+  .brief-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .brief-date { font-size: 13px; color: var(--text-secondary); }
+  .gen-btn { font-size: 12px; padding: 5px 14px; border-radius: var(--radius); border: 0.5px solid var(--border-accent); color: var(--text-accent); background: var(--bg-accent); cursor: pointer; font-weight: 500; }
+  .gen-btn:hover { background: var(--fill-accent); color: var(--on-accent); }
+  .brief-text { font-size: 14px; line-height: 1.75; color: var(--text-primary); }
+  .brief-text strong { font-weight: 500; }
+  .brief-text .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; margin-right: 4px; vertical-align: middle; }
+  .pill-warn { background: var(--bg-warning); color: var(--text-warning); }
+  .pill-ok { background: var(--bg-success); color: var(--text-success); }
+  .pill-info { background: var(--bg-accent); color: var(--text-accent); }
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
+  .meeting-row { display: flex; align-items: flex-start; gap: 12px; padding: 0.65rem 0; border-bottom: 0.5px solid var(--border); }
+  .meeting-row:last-child { border-bottom: none; }
+  .meeting-time { font-size: 12px; color: var(--text-muted); min-width: 48px; padding-top: 2px; }
+  .meeting-info { flex: 1; }
+  .meeting-title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .meeting-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .meeting-prep { font-size: 11px; color: var(--text-accent); margin-top: 4px; cursor: pointer; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat { background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem 1rem; }
+  .stat-num { font-size: 22px; font-weight: 500; color: var(--text-primary); }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .right { display: flex; flex-direction: column; gap: 1rem; }
+  .task-row { display: flex; align-items: center; gap: 10px; padding: 0.5rem 0; border-bottom: 0.5px solid var(--border); }
+  .task-row:last-child { border-bottom: none; }
+  .task-check { width: 16px; height: 16px; border-radius: 4px; border: 0.5px solid var(--border-strong); background: var(--surface-1); cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .task-check.done { background: var(--fill-accent); border-color: var(--fill-accent); }
+  .task-text { font-size: 13px; color: var(--text-primary); flex: 1; }
+  .task-text.done { text-decoration: line-through; color: var(--text-muted); }
+  .priority { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; }
+  .p-high { background: var(--bg-danger); color: var(--text-danger); }
+  .p-med { background: var(--bg-warning); color: var(--text-warning); }
+  .source-row { display: flex; align-items: center; gap: 8px; padding: 0.4rem 0; }
+  .source-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .source-label { font-size: 12px; color: var(--text-secondary); flex: 1; }
+  .source-status { font-size: 11px; color: var(--text-success); font-weight: 500; }
+  .source-status.dis { color: var(--text-muted); }
+  .upgrade-card { background: var(--bg-pro); border: 0.5px solid var(--border-pro); border-radius: 12px; padding: 1.25rem; }
+  .upgrade-card h3 { font-size: 14px; font-weight: 500; color: var(--text-pro); margin-bottom: 6px; }
+  .upgrade-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+  .upgrade-btn { width: 100%; padding: 8px; border-radius: var(--radius); background: var(--fill-pro); color: var(--on-pro); font-size: 13px; font-weight: 500; border: none; cursor: pointer; }
+  .upgrade-btn:hover { background: var(--fill-pro-hover); }
+</style>
+
+<h2 class="sr-only">BriefOS — AI daily briefing dashboard showing today's summary, meetings, tasks, and integrations</h2>
+
+<div class="topbar">
+  <div class="logo">Brief<span>OS</span></div>
+  <div class="topbar-right">
+    <span class="badge">Free plan</span>
+    <div class="avatar">MH</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="left">
+
+    <div class="card">
+      <div class="brief-header">
+        <div>
+          <div class="card-label">Today's brief</div>
+          <div class="brief-date">Wednesday, Aug 26 · Generated 8:01 AM</div>
+        </div>
+        <button class="gen-btn" onclick="sendPrompt('Regenerate my BriefOS daily brief with fresher context')">↻ Regenerate ↗</button>
+      </div>
+      <div class="brief-text">
+        <span class="pill pill-warn">⚠ Heads up</span> Your <strong>9:30 AM product sync</strong> now has 3 unread pre-reads — you haven't reviewed them. Set 10 min aside now.<br><br>
+        <span class="pill pill-ok">✓ Clear</span> Your <strong>11:00 AM investor call</strong> is fully prepped. Deck shared, no pending questions.<br><br>
+        <span class="pill pill-info">Decision needed</span> Sarah is waiting on your approval for the Q3 budget reallocation email — flagged since yesterday.
+      </div>
+      <hr class="divider">
+      <div class="brief-text" style="font-size:13px; color: var(--text-secondary);">
+        <strong style="color:var(--text-primary)">Focus window:</strong> 2:00–4:00 PM is clear — best block for deep work today.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Today's meetings</div>
+      <div class="meeting-row">
+        <div class="meeting-time">9:30 AM</div>
+        <div class="meeting-info">
+          <div class="meeting-title">Product sync — Q3 roadmap</div>
+          <div class="meeting-sub">Google Meet · 45 min · 6 attendees</div>
+          <div class="meeting-prep" onclick="sendPrompt('Give me a 60-second prep brief for my 9:30 AM product sync meeting ↗')">⚡ Generate prep brief ↗</div>
+        </div>
+        <span class="pill pill-warn" style="font-size:10px;">Unread</span>
+      </div>
+      <div class="meeting-row">
+        <div class="meeting-time">11:00 AM</div>
+        <div class="meeting-info">
+          <div class="meeting-title">Investor check-in</div>
+          <div class="meeting-sub">Zoom · 30 min · 2 attendees</div>
+          <div class="meeting-prep" onclick="sendPrompt('Summarize key points to hit in my 11 AM investor call ↗')">⚡ Generate prep brief ↗</div>
+        </div>
+        <span class="pill pill-ok" style="font-size:10px;">Ready</span>
+      </div>
+      <div class="meeting-row">
+        <div class="meeting-time">3:00 PM</div>
+        <div class="meeting-info">
+          <div class="meeting-title">1:1 with Sarah</div>
+          <div class="meeting-sub">In person · 30 min</div>
+          <div class="meeting-prep" onclick="sendPrompt('What should I discuss in my 1:1 with Sarah today based on pending items ↗')">⚡ Generate prep brief ↗</div>
+        </div>
+        <span class="pill pill-info" style="font-size:10px;">Later</span>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Meetings today</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Open tasks</div></div>
+      <div class="stat"><div class="stat-num">12</div><div class="stat-label">Unread emails flagged</div></div>
+      <div class="stat"><div class="stat-num">2h</div><div class="stat-label">Deep work available</div></div>
+    </div>
+
+  </div>
+
+  <div class="right">
+
+    <div class="card">
+      <div class="card-label">Priority tasks</div>
+      <div id="tasks">
+        <div class="task-row" onclick="toggleTask(this)">
+          <div class="task-check"></div>
+          <div class="task-text">Approve Q3 budget email</div>
+          <span class="priority p-high">High</span>
+        </div>
+        <div class="task-row" onclick="toggleTask(this)">
+          <div class="task-check"></div>
+          <div class="task-text">Review product sync pre-reads</div>
+          <span class="priority p-high">High</span>
+        </div>
+        <div class="task-row" onclick="toggleTask(this)">
+          <div class="task-check"></div>
+          <div class="task-text">Reply to Tariq re: launch date</div>
+          <span class="priority p-med">Med</span>
+        </div>
+        <div class="task-row" onclick="toggleTask(this)">
+          <div class="task-check"></div>
+          <div class="task-text">Update Notion project board</div>
+          <span class="priority p-med">Med</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Connected sources</div>
+      <div class="source-row">
+        <div class="source-dot" style="background:#4285F4"></div>
+        <div class="source-label"><i class="ti ti-calendar" aria-hidden="true"></i> Google Calendar</div>
+        <div class="source-status">Live</div>
+      </div>
+      <div class="source-row">
+        <div class="source-dot" style="background:#EA4335"></div>
+        <div class="source-label"><i class="ti ti-mail" aria-hidden="true"></i> Gmail</div>
+        <div class="source-status">Live</div>
+      </div>
+      <div class="source-row">
+        <div class="source-dot" style="background:#4A154B"></div>
+        <div class="source-label"><i class="ti ti-brand-slack" aria-hidden="true"></i> Slack</div>
+        <div class="source-status">Live</div>
+      </div>
+      <div class="source-row">
+        <div class="source-dot" style="background:var(--border-strong)"></div>
+        <div class="source-label"><i class="ti ti-file-text" aria-hidden="true"></i> Notion</div>
+        <div class="source-status dis">Connect</div>
+      </div>
+      <div class="source-row">
+        <div class="source-dot" style="background:var(--border-strong)"></div>
+        <div class="source-label"><i class="ti ti-brand-asana" aria-hidden="true"></i> Asana</div>
+        <div class="source-status dis">Connect →</div>
+      </div>
+    </div>
+
+    <div class="upgrade-card">
+      <h3><i class="ti ti-sparkles" aria-hidden="true"></i> Upgrade to Pro</h3>
+      <p>Unlimited briefs, email drafting, voice summary, Notion & Asana sync, team briefings.</p>
+      <button class="upgrade-btn" onclick="sendPrompt('Tell me about BriefOS Pro features and pricing ↗')">View Pro plan ↗</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleTask(row) {
+  const check = row.querySelector('.task-check');
+  const text = row.querySelector('.task-text');
+  const done = check.classList.toggle('done');
+  text.classList.toggle('done', done);
+  if (done) {
+    check.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:var(--on-accent);" aria-hidden="true"></i>';
+  } else {
+    check.innerHTML = '';
+  }
+}
+</script>
